@@ -127,8 +127,8 @@ window.addEventListener("DOMContentLoaded", () => {
             img.src = e
             img.onload = function() {
                 document.getElementById('emote-display').innerHTML = `<img id="emote-image" src="${e}" style="height:${img.height * 2}px">`;
+                enableInput();
             }
-            enableInput();
         } catch (err) {
             console.error(err.message);
             emoteout.innerHTML = 'Error getting emote: ' + err.message;
@@ -152,6 +152,7 @@ window.addEventListener("DOMContentLoaded", () => {
             return
         }
         attempt++;
+        let resultTextFormat = `Attempt: ${attempt}/${max_attempts} | `;
         if (guess == realname) {
             previousGuesses.push(guess);
             previousResults.push(getEmote(false));
@@ -164,11 +165,10 @@ window.addEventListener("DOMContentLoaded", () => {
             result.innerHTML = "You have no attempts left. (5/5)";
             complete();
         } else {
-            let resultTextFormat = `Attempt: ${attempt}/${max_attempts} | `;
-            previousGuesses.push(guess);
             fetchEmote();
-            result.innerHTML = resultTextFormat + "Incorrect!";
+            previousGuesses.push(guess);
             previousResults.push(getEmote(true))
+            result.innerHTML = resultTextFormat + "Incorrect!";
             return
         }
     }
