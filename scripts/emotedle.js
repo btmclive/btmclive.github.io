@@ -146,7 +146,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     function handleAttempt(guess) {
         if (guess == null) {
-            resultTextFormat = `Attempt: ${attempt}/${max_attempts}`;
+            let resultTextFormat = `Attempt: ${attempt}/${max_attempts}`;
             result.innerHTML = resultTextFormat;
             complete()
             return
