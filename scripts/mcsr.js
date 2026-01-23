@@ -64,8 +64,9 @@ async function showInfo() {
     | ${data.today.forfeits}FFs`;
     document.getElementById("net-elo").innerHTML = `${elo_today} elo`;
     document.getElementById("ff-wins-today").innerHTML = `${data.today.forfeit_wins} wins by forfeits`;
-    document.getElementById("slowest-today").innerHTML = `Slowest time: ${data.today.slowest}`;
     document.getElementById("fastest-today").innerHTML = `PB: ${data.today.fastest}`;
+    document.getElementById("slowest-today").innerHTML = `Slowest time: ${data.today.slowest}`;
+    document.getElementById("avg-today").innerHTML = `Average time: ${data.today.avg}`;
     document.getElementById("resets-today").innerHTML = `${data.today.resets} Resets`;
     // -- season -- //
     document.getElementById("peak-elo-season").innerHTML = `Peak elo: <span class="${getRank(data.season.elo_peak).class}">${data.season.elo_peak} (${getRank(data.season.elo_peak).short})</span>`;
