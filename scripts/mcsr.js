@@ -31,7 +31,11 @@ async function fetchData() {
         let stream = await res.text();
         return stream;
     } catch (e) {
-        document.getElementById("error").innerHTML = e
+        if (e == "HTTP 500") {
+            document.getElementById("error").innerHTML = `${e}, probably panicked.`;
+        } else {
+            document.getElementById("error").innerHTML = e
+        }
         setTimeout(() => { if (document.hidden()) { window.location.reload(); } }, 5000);
         return "Failed to fetch elo: " + e;
     }
