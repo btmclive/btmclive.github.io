@@ -83,31 +83,67 @@ async function fetchChannelInfo(entry) {
 }
 
 async function fetchStreamInfo(entry) {
-    document.querySelector("#stream-info h2 a").href = JSON.parse(await fetchLatestStream())[0].url;
+    const data = JSON.parse(await fetchLatestStream())[0];
+    document.querySelector("#stream-info h2 a").href = "https://twitch.tv/btmc";
+    if (!entry.is_live) {
+        document.querySelector("#stream-info h2 a").href = data.url;
+    } else {
+    }
     const stream_container = document.getElementById("stream-info");
-    const date = new Date(JSON.parse(await fetchLatestStream())[0].created_at); // stream date
+    const date = new Date(data.created_at); // stream date
     const curDateObj = new Date(); // current date
     const utcCurMidnight = Date.UTC(curDateObj.getUTCFullYear(), curDateObj.getUTCMonth(), curDateObj.getUTCDate());
     const utcStartMidnight = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
-    const downtime = Math.floor((utcCurMidnight - utcStartMidnight) / (24 * 60 * 60 * 1000)) - 1;
-    
-    let title = document.createElement('p');
-    let duration = document.createElement('p');
-    let start = document.createElement('p');
-    let datediff = document.createElement('p');
-        title.innerHTML = `[${entry.game_name}] - "${entry.title}"`;
-        duration.innerHTML = `Duration: ${JSON.parse(await fetchLatestStream())[0].duration}`;
-        start.innerHTML = `Started: ${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
-        datediff.innerHTML = `Days without stream: ${downtime}`;
-            datediff.style.fontWeight = "bold";
+    let downtime = Math.floor((utcCurMidnight - utcStartMidnight) / (24 * 60 * 60 * 1000)) - 1;
+    const duration = data.duration;
+
+    let el_title = document.createElement('p');
+    let el_duration = document.createElement('p');
+    let el_start = document.createElement('p');
+    let el_end = document.createElement('p');
+    let el_datediff = document.createElement('p');
+
+    let timestamp_start = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+    let endtime_fmt = new Date(date.getTime() + stringToSecs(duration) * 1000);
+    let timestamp_end = `${endtime_fmt.toLocaleDateString()} ${endtime_fmt.toLocaleTimeString()}`;
+        el_title.innerHTML = `[${entry.game_name}] - "${entry.title}"`;
+        el_duration.innerHTML = `Duration: ${duration}`;
+        el_start.innerHTML = `Started: ${timestamp_start}`;
+        if (entry.is_live == false) {
+            el_end.innerHTML = `Ended: ${timestamp_end}`;
+        } else {
+            el_end.innerHTML = "Ended: [Currently Live]";
+        }
+        el_datediff.innerHTML = `Days without stream: ${downtime}`;
+            el_datediff.style.fontWeight = "bold";
     if (downtime < 1) {
-        datediff.style.display = "flex"; datediff.style.alignItems = "center"; datediff.style.gap = "4px";
-        datediff.innerHTML += `<img src="https://cdn.7tv.app/emote/01F6N0NRYR000AR0YATR3Q3CPR/1x.webp" height=24px>`;
+        downtime = 0;
+        el_datediff.style.display = "flex"; el_datediff.style.alignItems = "center"; el_datediff.style.gap = "4px";
+        el_datediff.innerHTML += `<img src="https://cdn.7tv.app/emote/01F6N0NRYR000AR0YATR3Q3CPR/1x.webp" height=24px>`;
     } else if (downtime > 3) {
-        datediff.innerHTML += "...";
+        el_datediff.innerHTML += "...";
     }
-    stream_container.appendChild(title);
-    stream_container.appendChild(duration);
-    stream_container.appendChild(start);
-    stream_container.appendChild(datediff);
+    stream_container.appendChild(el_title);
+    stream_container.appendChild(el_duration);
+    stream_container.appendChild(el_start);
+    stream_container.appendChild(el_end);
+    stream_container.appendChild(el_datediff);
+}
+
+function stringToSecs(str) {
+    const regex = /(\d+)([hms])/g;
+    let secs = 0;
+    while ((array = regex.exec(str)) !== null) {
+        const v = parseInt(array[1]);
+        const time = array[2];
+
+        if (time == "h") {
+            secs += 3600 * v;
+        } else if (time == "m") {
+            secs += 60 * v;
+        } else {
+            secs += v
+        }
+    }
+    return secs
 }
