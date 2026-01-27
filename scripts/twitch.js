@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 async function fetchFollowers() {
     try {
-        const res = await fetch("https://btmcs-backend.onrender.com/twitch/followers", { cache: "no-cache" });
+        let res = await fetch("https://btmcs-backend.onrender.com/twitch/followers", { cache: "no-cache" });
         if (!res.ok) throw new Error('HTTP ' + res.status);
         let followers = Number(await res.text());
         return followers;
@@ -43,6 +43,7 @@ async function fetchChannelInfo(entry) {
         followers.id = "followers";
     const counter = new CounterAnime(f_value, followers);
     setInterval(async () => {
+        f_value = await fetchFollowers();
         counter.setNumber(f_value);
     }, 60000);
     channel_container.appendChild(followers);
