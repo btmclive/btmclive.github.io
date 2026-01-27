@@ -44,7 +44,8 @@
   --accent-1-hover: #2c3047;
   --accent-2: #352f69;
   --accent-2-hover: #342e65;
-  --accent-3: #d5c8ff;
+  --accent-3: #6874aa;
+  --accent-4: #d5c8ff;
   --accent-disabled: #23252e;
   --accent-success: #194d33;
   --bg: #1a1b26;
@@ -445,7 +446,7 @@ input:required {
 }
 .NavBar-wrap button.active {
   background-color: var(--accent-2);
-  color: var(--accent-3);
+  color: var(--accent-4);
   text-decoration: none;
   cursor: default;
 }
@@ -664,4 +665,64 @@ button[data-enabled="true"]:hover {
 }
 .number {
   font-weight: 800;
+}
+.cards-container {
+  display: flex;
+  gap: 1%;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.card {
+  display: flex;
+  border: solid 4px;
+  border-color: var(--accent-3);
+  border-radius: 8px;
+  background: rgba(156, 156, 156, 0.1);
+  min-width: 21vw;
+  flex-basis: min-content;
+  flex: 1 1;
+  margin-bottom: 1em;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.65, 0.05, 0.36, 1);
+}
+.card:hover {
+  transform: scale(1.05);
+  transition: all 0.3s cubic-bezier(0.65, 0.05, 0.36, 1);
+}
+.card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  backdrop-filter: none;
+  backdrop-filter: saturate(1);
+}
+.card-content img {
+	/* height: 15em; */
+	object-fit: cover;
+	width: 100%;
+}
+.card-image img {
+  -webkit-mask: linear-gradient(to bottom, #000, transparent 93%);
+  mask: linear-gradient(to bottom, #000 50%, transparent 93%);
+  transition: all ease-in-out 0.2s;
+}
+.card-image img:hover {
+  filter: brightness(1.15);
+  transition: all ease-in-out 0.2s;
+}
+.card-title {
+  font-weight: bold;
+  padding: 0px 8px;
+  margin-bottom: 1em;
+}
+.card-duration {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  background: rgba(0,0,0,0.6);
+  padding: 0px 6px;
+  border-radius: 4px;
 }
