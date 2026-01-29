@@ -57,7 +57,21 @@
         <p>Updates every 2.5 minutes</p>
         <p id="utc-time">"today" counts reset at 0 pst</p>
     </div>
+    <div class="body-section">
+        <div id="vs-search" style="margin-bottom: 1em;">
+            <h3 style="margin-top: 0">Search an opponent</h3>
+            <form style="display: flex;" action="" class="input-form" id="vs-search-form">
+                <input id="vs-search-input" required minlength="3" maxlength="30" type="text" style="width:100%" placeholder="Username" name="user" title="[Required] Username">
+                <button id="submit" style="font-family: 'NF';" title="Search"></button>
+            </form>
+        </div>
+        <p id="mcsr-vs-err"></p>
+        <div id="vs-info" class="vs-card-container">
+        </div>
+    </div>
     <div id="notif"></div>
   </div>
+  <script>
+  </script>
 </body>
 </html>

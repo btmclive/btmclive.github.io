@@ -46,6 +46,8 @@
   --accent-2-hover: #342e65;
   --accent-3: #6874aa;
   --accent-4: #d5c8ff;
+  --accent-5: #222535;
+  --accent-5-hover: #262a3e;
   --accent-disabled: #23252e;
   --accent-success: #194d33;
   --bg: #1a1b26;
@@ -72,6 +74,7 @@
 }
 html {
   height: 100%;
+  scroll-behavior: smooth;
 }
 body {
   margin: 8px;
@@ -726,4 +729,60 @@ button[data-enabled="true"]:hover {
   background: rgba(0,0,0,0.6);
   padding: 0px 6px;
   border-radius: 4px;
+}
+.mcsr-card-match {
+  border: solid 4px;
+  border-color: var(--accent-3);
+  border-radius: 8px;
+  background: var(--accent-5);
+  margin-bottom: 1em;
+  transition: all 0.3s cubic-bezier(0.65, 0.05, 0.36, 1);
+  padding: 4px;
+  max-height: 3.4em;
+  cursor: zoom-in;
+  overflow: hidden;
+}
+.mcsr-card-match:hover {
+  background: var(--accent-5-hover);
+  transition: all 0.3s cubic-bezier(0.65, 0.05, 0.36, 1);
+  filter: contrast(1.03);
+}
+.vs-card-container:has(.mcsr-card-match:hover) .mcsr-card-match:not(:hover){
+  filter:contrast(0.95);
+}
+.mcsr-card-match.expanded {
+  max-height: 12em;
+  transition: all 0.3s cubic-bezier(0.65, 0.05, 0.36, 1);
+}
+.mcsr-card-match .mcsr-cm-main {
+  display: flex;
+  gap: 1em;
+  justify-content: space-between;
+  font-weight: bold;
+  align-items: center;
+}
+.mcsr-cm-main div {
+  flex: 1 0;
+}
+.mcsr-card-match .mcsr-cm-main a {
+  text-decoration: none;
+}
+.mcsr-card-match .expand-content p {
+  font-family: "JetBrains Mono";
+}
+.mcsr-card-match .mcsr-opp {
+  padding: 0px 16px;
+  min-width: 25%;
+  text-align: left;
+}
+.mcsr-card-match .mcsr-date {
+  text-align: right;
+  min-width: 25%;
+}
+.mcsr-card-match .expand-content {
+  display: none;
+  border-top: var(--accent-4) solid 1px;
+  padding: 0px 4px;
+  gap: 1em;
+  justify-content: space-evenly;
 }
