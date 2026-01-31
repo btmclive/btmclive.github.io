@@ -1,3 +1,55 @@
+/* ----- structs
+pub struct Final {
+    elo: u32,
+    today: Today,
+    season: Season,
+    overall: Overall,
+}
+pub struct Today {
+    matches: u32,
+    deaths: u32,
+    elo: i32,
+    wins: u32,
+    draws: u32,
+    losses: u32,
+    forfeits: u32,
+    forfeit_wins: u32,
+    slowest: String,
+    fastest: String,
+    resets: u32,
+    avg: String
+}
+pub struct Season {
+    matches: u32,
+    deaths: u32,
+    elo_peak: u32,
+    elo_lowest: u32,
+    pb: String,
+    forfeits: u32,
+    forfeit_wins: u32,
+    slowest: String,
+    resets: u32,
+}
+pub struct Overall {
+    elo_peak: u32,
+    elo_lowest: u32,
+    pb: String,
+}
+pub struct Session {
+    matches: u32,
+    deaths: u32,
+    elo: i32,
+    wins: u32,
+    draws: u32,
+    losses: u32,
+    forfeits: u32,
+    forfeit_wins: u32,
+    slowest: String,
+    fastest: String,
+    resets: u32,
+    avg: String
+}
+----- */
 const UUID = "8a8174eb699a49fcb2299af5eede0992";
 const eloRanges = [
     { min: 800, max: 899, name: "Iron 3", short: "I3", class: "rank-iron" },
@@ -22,7 +74,7 @@ const owSeeds = [
     { code: "DESERT_TEMPLE", name: "Desert Temple" },
     { code: "VILLAGE", name: "Village" },
 ]
-const button = document.getElementById("request-btn");
+const button = document.getElementById("refresh-btn");
 // -- colors --
 const color_red = "#fb2323";
 const color_green = "#2bec64";
@@ -34,7 +86,16 @@ forms.forEach(form => {
     event.preventDefault();
   })
 })
-
+async function fetchLatestStream() {
+    try {
+        const res = await fetch("https://btmcs-backend.onrender.com/twitch/latest", { cache: "no-cache" });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        let stream = await res.text();
+        return JSON.parse(stream)[0];
+    } catch (e) {
+        return "Failed to fetch stream info: " + e;
+    }
+}
 async function fetchDeaths() {
     try {
         const res = await fetch("https://btmcs-backend.onrender.com/mcsr/deaths", { cache: "no-cache"});
@@ -48,6 +109,22 @@ async function fetchDeaths() {
 async function fetchData() {
     try {
         const res = await fetch("https://btmcs-backend.onrender.com/mcsr/data", { cache: "no-cache" });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        let stream = await res.text();
+        return stream;
+    } catch (e) {
+        if (e == "HTTP 500") {
+            document.getElementById("error").innerHTML = `${e}, probably panicked.`;
+        } else {
+            document.getElementById("error").innerHTML = e
+        }
+        setTimeout(() => { if (document.hidden()) { window.location.reload(); } }, 5000);
+        return "Failed to fetch elo: " + e;
+    }
+}
+async function fetchSession(time) {
+    try {
+        const res = await fetch(`https://btmcs-backend.onrender.com/mcsr/session/${time}`, { cache: "no-cache" });
         if (!res.ok) throw new Error('HTTP ' + res.status);
         let stream = await res.text();
         return stream;
@@ -81,6 +158,7 @@ async function showInfo() {
     document.getElementById("death-display").innerHTML = `${data.season.deaths} deaths in ${data.season.matches} matches`;
     document.getElementById("daily-display").innerHTML = `${data.today.deaths} deaths in ${data.today.matches} matches today`;
     document.getElementById("ratio-display").innerHTML = `Death to match ratio: ${(Number.parseFloat(data.season.deaths / data.season.matches).toFixed(4)*100).toFixed(2)}% this season | ${(Number.parseFloat(data.today.deaths / data.today.matches).toFixed(4)*100).toFixed(2)}% today`;
+    
     // -- today -- //
     document.getElementById("WLD-today").innerHTML = `
     <span style="color: #20b920">${data.today.wins}W</span> 
@@ -121,6 +199,35 @@ function getRank(elo) {
 function getTime() {
     const pst = new Date('1970-01-01T08:00:00Z');
     document.getElementById("utc-time").innerHTML += ` (${pst.toLocaleTimeString()})`;
+}
+
+async function showSession() {
+    const latest_stream = await fetchLatestStream();
+    const time_session_start = new Date(latest_stream.created_at);
+    const session = JSON.parse(await fetchSession(time_session_start.valueOf() / 1000));
+    
+    let elo_session;
+    if (session.elo > 0) {
+        elo_session = `+${session.elo}`;
+        document.getElementById("net-elo-session").style.color = "green";
+    } else {
+        elo_session = session.elo;
+        document.getElementById("net-elo-session").style.color = "#e32c2c";
+    }
+    // -- session -- //
+    document.getElementById("session-start").innerHTML = `Session started @ ${time_session_start.toLocaleTimeString()}`;
+    document.getElementById("WLD-session").innerHTML = `
+    <span style="color: #20b920">${session.wins}W</span> 
+    | <span style="color: #ea1212">${session.losses}L</span> 
+    | <span style="color: #60a5fa">${session.draws}D</span>
+    | ${session.forfeits}FFs`;
+    document.getElementById("net-elo-session").innerHTML = `${elo_session} elo`;
+    document.getElementById("ff-wins-session").innerHTML = `${session.forfeit_wins} wins by forfeits`;
+    document.getElementById("fastest-session").innerHTML = `PB: ${session.fastest}`;
+    document.getElementById("slowest-session").innerHTML = `Slowest time: ${session.slowest}`;
+    document.getElementById("avg-session").innerHTML = `Average time: ${session.avg}`;
+    document.getElementById("resets-session").innerHTML = `${session.resets} Resets`;
+    document.getElementById("deaths-session").innerHTML = `${session.deaths} deaths in ${session.matches} matches (${(Number.parseFloat(session.deaths / session.matches).toFixed(4)*100).toFixed(2)}%)`;
 }
 
 async function getVsData(player) {
@@ -299,6 +406,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 })
 document.addEventListener("DOMContentLoaded", showInfo());
+document.addEventListener("DOMContentLoaded", showSession());
 document.addEventListener("DOMContentLoaded", getTime());
 button.addEventListener("click", showInfo);
 setInterval(() => {

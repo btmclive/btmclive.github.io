@@ -11,67 +11,85 @@
     <body>
         <style>p {font-size: 1.08rem}</style>
         <div class="NavBar-wrap"></div>
+        <button id="refresh-btn" style="font-family: 'NF';text-align: center;">
+            
+        </button>
         <h1 style="text-align: center;color: #8dbcef;"><a href="https://mcsrranked.com/stats/beasttrollmc" target="_blank">MCSR</a></h1>
         <h6 style="text-align: center;">augh</h6>
-        <p id="error"></p>
+        <p id="error" style="color: red; text-align: center;"></p>
         <div class="body" id="body">
-      <div class="body-section">
-          <h2 style="margin:0 auto; position: relative; top: -1.35em; height: 10px; display: flex; align-items: center; background-color: var(--bg); width: max-content; padding: 4px 8px;">Quick Stats</h2>
-          <span id="rank-display" style="font-family: JetBrains Mono;">---</span>
-          <p id="elo-display" style="font-family: JetBrains Mono;">- elo | - today</p>
-        <p id="death-display" style="font-family: JetBrains Mono;">-- deaths in -- matches</p>
-        <p id="daily-display" style="font-family: JetBrains Mono;">-- deaths in -- matches today</p>
-        <p id="ratio-display" style="font-family: JetBrains Mono;">Loading .. this might take a bit</p>
-    </div>
-    <div class="body-section" style="display: flex;justify-content: space-around; font-weight: 600;">
-        <div style="flex: 1 1">
-            <h2>Today</h2>
-            <p id="WLD-today" style="font-family: JetBrains Mono;">-W | -L | -D | -FFs</p>
-            <p id="net-elo" style="font-family: JetBrains Mono;">-- elo</p>
-            <p id="fastest-today" style="font-family: JetBrains Mono;">PB: --:--</p>
-            <p id="slowest-today" style="font-family: JetBrains Mono;">Slowest time: --:--</p>
-            <p id="avg-today" style="font-family: JetBrains Mono;">Average time: --:--</p>
-            <p id="ff-wins-today" style="font-family: JetBrains Mono;">- wins by forfeits</p>
-            <p id="resets-today" style="font-family: JetBrains Mono;">- Resets</p>
+            <div class="body-section" id="quick-stats">
+                <h2 style="margin:0 auto; position: relative; top: -1.35em; height: 10px; display: flex; align-items: center; background-color: var(--bg); width: max-content; padding: 4px 8px;">Quick Stats</h2>
+                <span id="rank-display" style="font-family: JetBrains Mono;">---</span>
+                <p id="elo-display" style="font-family: JetBrains Mono;">- elo | - today</p>
+                <p id="death-display" style="font-family: JetBrains Mono;">-- deaths in -- matches</p>
+                <p id="daily-display" style="font-family: JetBrains Mono;">-- deaths in -- matches today</p>
+                <p id="ratio-display" style="font-family: JetBrains Mono;">Loading .. this might take a bit</p>
+            </div>
+            <div class="body-section" id="session-stats" style="font-weight: 600;">
+                <h2 style="margin:0 auto; position: relative; top: -1.35em; height: 10px; display: flex; align-items: center; background-color: var(--bg); width: max-content; padding: 4px 8px;">Session</h2>
+                <p id="session-start">Session started @ ---</p>
+                <div style="display: flex; justify-content: space-evenly;">
+                    <div>
+                        <p id="WLD-session" style="font-family: JetBrains Mono;">-W | -L | -D | -FFs</p>
+                        <p id="net-elo-session" style="font-family: JetBrains Mono;">-- elo</p>
+                        <p id="ff-wins-session" style="font-family: JetBrains Mono;">- wins by forfeits</p>
+                        <p id="resets-session" style="font-family: JetBrains Mono;">- Resets</p>
+                    </div>
+                    <div>
+                        <p id="fastest-session" style="font-family: JetBrains Mono;">PB: --:--</p>
+                        <p id="slowest-session" style="font-family: JetBrains Mono;">Slowest time: --:--</p>
+                        <p id="avg-session" style="font-family: JetBrains Mono;">Average time: --:--</p>
+                        <p id="deaths-session" style="font-family: JetBrains Mono;">- deaths in - matches</p>
+                    </div>
+                </div>
+            </div>
+            <div class="body-section" id="general-stats" style="display: flex;justify-content: space-around; font-weight: 600;">
+                <div style="flex: 1 1">
+                    <h2>Today</h2>
+                    <p id="WLD-today" style="font-family: JetBrains Mono;">-W | -L | -D | -FFs</p>
+                    <p id="net-elo" style="font-family: JetBrains Mono;">-- elo</p>
+                    <p id="fastest-today" style="font-family: JetBrains Mono;">PB: --:--</p>
+                    <p id="slowest-today" style="font-family: JetBrains Mono;">Slowest time: --:--</p>
+                    <p id="avg-today" style="font-family: JetBrains Mono;">Average time: --:--</p>
+                    <p id="ff-wins-today" style="font-family: JetBrains Mono;">- wins by forfeits</p>
+                    <p id="resets-today" style="font-family: JetBrains Mono;">- Resets</p>
+                </div>
+                <div style="flex: 1 1">
+                    <h2>Season</h2>
+                    <p id="peak-elo-season" style="font-family: JetBrains Mono;">Peak elo: - (--)</p>
+                    <p id="lowest-elo-season" style="font-family: JetBrains Mono;">Lowest elo: - (--)</p>
+                    <p id="pb-season" style="font-family: JetBrains Mono;">PB: --:-- </p>
+                    <p id="slowest-season" style="font-family: JetBrains Mono;">Slowest time: --:--</p>
+                    <p id="forfeits-season" style="font-family: JetBrains Mono;">Forfeits: -</p>
+                    <p id="ff-wins-season" style="font-family: JetBrains Mono;">- wins by forfeits</p>
+                    <p id="resets-season" style="font-family: JetBrains Mono;">- Resets</p>
+                </div>
+                <div style="flex: 1 1">
+                    <h2>Overall</h2>
+                    <p id="peak-elo-overall" style="font-family: JetBrains Mono;">Peak elo: - (--)</p>
+                    <p id="lowest-elo-overall" style="font-family: JetBrains Mono;">Lowest elo: - (--)</p>
+                    <p id="pb-overall" style="font-family: JetBrains Mono;">PB: --:--</p>
+                    
+                </div>
+            </div>
+            <div id="other">
+                <p>Updates every 2.5 minutes</p>
+                <p id="utc-time">"today" counts reset at 0 pst</p>
+            </div>
+            <div class="body-section">
+                <div id="vs-search" style="margin-bottom: 1em;">
+                    <h3 style="margin-top: 0">Search an opponent</h3>
+                    <form style="display: flex;" action="" class="input-form" id="vs-search-form">
+                        <input id="vs-search-input" required minlength="3" maxlength="30" type="text" style="width:100%" placeholder="Username" name="user" title="[Required] Username">
+                        <button id="submit" style="font-family: 'NF';" title="Search"></button>
+                    </form>
+                </div>
+                <p id="mcsr-vs-err"></p>
+                <div id="vs-info" class="vs-card-container">
+                </div>
+            </div>
+            <div id="notif"></div>
         </div>
-        <div style="flex: 1 1">
-            <h2>Season</h2>
-            <p id="peak-elo-season" style="font-family: JetBrains Mono;">Peak elo: - (--)</p>
-            <p id="lowest-elo-season" style="font-family: JetBrains Mono;">Lowest elo: - (--)</p>
-            <p id="pb-season" style="font-family: JetBrains Mono;">PB: --:-- </p>
-            <p id="slowest-season" style="font-family: JetBrains Mono;">Slowest time: --:--</p>
-            <p id="forfeits-season" style="font-family: JetBrains Mono;">Forfeits: -</p>
-            <p id="ff-wins-season" style="font-family: JetBrains Mono;">- wins by forfeits</p>
-            <p id="resets-season" style="font-family: JetBrains Mono;">- Resets</p>
-        </div>
-        <div style="flex: 1 1">
-            <h2>Overall</h2>
-            <p id="peak-elo-overall" style="font-family: JetBrains Mono;">Peak elo: - (--)</p>
-            <p id="lowest-elo-overall" style="font-family: JetBrains Mono;">Lowest elo: - (--)</p>
-            <p id="pb-overall" style="font-family: JetBrains Mono;">PB: --:--</p>
-            
-        </div>
-    </div>
-    <div id="other">
-        - - - <button id="request-btn">Refresh</button> - - -
-        <p>Updates every 2.5 minutes</p>
-        <p id="utc-time">"today" counts reset at 0 pst</p>
-    </div>
-    <div class="body-section">
-        <div id="vs-search" style="margin-bottom: 1em;">
-            <h3 style="margin-top: 0">Search an opponent</h3>
-            <form style="display: flex;" action="" class="input-form" id="vs-search-form">
-                <input id="vs-search-input" required minlength="3" maxlength="30" type="text" style="width:100%" placeholder="Username" name="user" title="[Required] Username">
-                <button id="submit" style="font-family: 'NF';" title="Search"></button>
-            </form>
-        </div>
-        <p id="mcsr-vs-err"></p>
-        <div id="vs-info" class="vs-card-container">
-        </div>
-    </div>
-    <div id="notif"></div>
-  </div>
-  <script>
-  </script>
-</body>
+    </body>
 </html>

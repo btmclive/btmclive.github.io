@@ -293,6 +293,22 @@ input:required {
   display: block;
   animation: FadeIn 0.5s cubic-bezier(0.53, 0.01, 0.39, 1.39), FadeOut 0.5s 1.5s ease-out;
 }
+#refresh-btn {
+  display: block;
+  padding: 10px;
+  background-color: var(--accent-2);
+  z-index: 5;
+  bottom: 20px;
+  right: 20px;
+  position: fixed;
+  border-radius: 4px;
+  width: 38px;
+  cursor: pointer;
+}
+#refresh-btn:hover {
+  background-color: var(--accent-5-hover);
+  transition: all;
+}
 .live-indicator {
   margin-right: 8px;
 }
