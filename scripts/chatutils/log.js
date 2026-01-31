@@ -30,14 +30,6 @@ async function submit(type, inputs) {
   }
 }
 
-// intercept form process
-let forms = document.querySelectorAll(".input-form");
-forms.forEach(form => {
-  form.addEventListener("submit", function (event) {
-    event.preventDefault();
-  })
-})
-
 async function searchUser(user, string, outhtml) {
   const resulttext = outhtml.parentElement.querySelector('span#result-text');
   const start = performance.now();
