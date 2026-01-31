@@ -194,6 +194,7 @@ async function showSession() {
     }
     // -- session -- //
     document.getElementById("session-start").innerHTML = `Session started @ ${time_session_start.toLocaleTimeString()}`;
+    document.getElementById("session-start").href = latest_stream.url;
     document.getElementById("WLD-session").innerHTML = `
     <span style="color: #20b920">${session.wins}W</span> 
     | <span style="color: #ea1212">${session.losses}L</span> 
