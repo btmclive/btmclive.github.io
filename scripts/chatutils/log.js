@@ -2,6 +2,7 @@ let occurance_count = 0;
 let regex_enabled = false;
 let case_sens = false;
 let attempts = 2;
+const INSTANCE = "https://logs.zonian.dev"
 const excludeFilters = [
   "osu.ppy.sh/b/\\d+", "🪙 from .*\\d+ total casts", "BTMC.*gift(ed|ing)", ": !\\w+",
   "you are already in the queue", "try fishing to get", "osu/tosu is not running", "kick/punch is ready",
@@ -35,7 +36,7 @@ async function searchUser(user, string, outhtml) {
   const start = performance.now();
   resulttext.innerHTML = "";
   outhtml.innerHTML = "Getting logs, please wait..";
-  let req = `https://logs.nadeko.net/channel/btmc/user/${user}/search?q=${string}`;
+  let req = `${INSTANCE}/channel/btmc/user/${user}/search?q=${string}`;
   try {
     const res = await fetch(req, { cache: "no-cache" });
     if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -56,9 +57,9 @@ async function searchDate(from, to, user, string, outhtml) {
   let req;
   outhtml.innerHTML = "Getting logs, please wait..";
   if (user == null || user == "") {
-    req = `https://logs.nadeko.net/channel/btmc?from=${from}T00:00:00Z&to=${to}T00:00:00Z`;
+    req = `${INSTANCE}/channel/btmc?from=${from}T00:00:00Z&to=${to}T00:00:00Z`;
   } else {
-    req = `https://logs.nadeko.net/channel/btmc/user/${user}?from=${from}T00:00:00Z&to=${to}T00:00:00Z`;
+    req = `${INSTANCE}/channel/btmc/user/${user}?from=${from}T00:00:00Z&to=${to}T00:00:00Z`;
   }
   try {
     const res = await fetch(req, { cache: 'no-cache' });
@@ -78,11 +79,11 @@ async function searchDate(from, to, user, string, outhtml) {
 async function searchRandom(user, string, outhtml, from, to) {
   let req;
   if (string == null || string == "") {
-    req = `https://logs.nadeko.net/channel/btmc/user/${user}/random`;
+    req = `${INSTANCE}/channel/btmc/user/${user}/random`;
   } else if ((from == "" || to == "") && string !== "") {
-    req = `https://logs.nadeko.net/channel/btmc/user/${user}/search?q=${string}`;
+    req = `${INSTANCE}/channel/btmc/user/${user}/search?q=${string}`;
   } else {
-    req = `https://logs.nadeko.net/channel/btmc/user/${user}?from=${from}T00:00:00Z&to=${to}T00:00:00Z`;
+    req = `${INSTANCE}/channel/btmc/user/${user}?from=${from}T00:00:00Z&to=${to}T00:00:00Z`;
   }
   try {
     const res = await fetch(req, { cache: "no-cache" });
